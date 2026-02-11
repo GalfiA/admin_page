@@ -156,7 +156,7 @@ const Thermometer: React.FC<ThermometerProps> = ({
 export default function ThermometerGroup() {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', padding: '2rem', justifyContent: 'center', backgroundColor: '#f9fafb', borderRadius: '0.5rem', border: '1px solid #e5e7eb' }}>
-      <Thermometer label="Living Room" initialValue={22} />
+      <Thermometer label="Office" initialValue={22} />
       <Thermometer label="Kitchen" initialValue={19} />
       <Thermometer label="Freezer" initialValue={-18} min={-30} max={10} />
       <Thermometer label="Boiler" initialValue={60} min={20} max={70} />

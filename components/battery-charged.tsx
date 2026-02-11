@@ -1,17 +1,13 @@
-"use client";
+"use client"
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BatteryCharging } from "lucide-react";
-import {
-  RadialBarChart,
-  RadialBar,
-  PolarAngleAxis,
-  Tooltip,
-} from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 
 export default function BatteryChargeRadial() {
-  // Battery charge contributions
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const sources = [
     { name: "Solar", value: 25, fill: "#facc15" },
     { name: "Grid", value: 40, fill: "#3b82f6" },
@@ -19,22 +15,20 @@ export default function BatteryChargeRadial() {
   ];
 
   const totalCharge = sources.reduce((sum, s) => sum + s.value, 0);
-
-  // Convert sources into stacked radial segments
-  const stackedData = sources.map((src) => ({
-    ...src,
-    total: totalCharge,
-  }));
+  const chartData = [
+    ...sources,
+    { name: "Remaining", value: 100 - totalCharge, fill: "transparent" },
+  ];
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
+      transition={{ duration: 0.6 }}
     >
       <Card className="rounded-2xl shadow-xl border bg-gradient-to-br from-background to-muted/30">
         <CardHeader>
-          <CardTitle className="text-xl font-bold flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-xl font-bold">
             <BatteryCharging className="h-6 w-6 text-primary" />
             Battery Charge
           </CardTitle>
@@ -44,75 +38,75 @@ export default function BatteryChargeRadial() {
         </CardHeader>
 
         <CardContent className="flex flex-col items-center gap-6">
-          {/* Single stacked radial bar */}
           <div className="relative">
-            <RadialBarChart
+            <PieChart
               width={280}
               height={280}
-              cx={140}
-              cy={140}
-              innerRadius={80}
-              outerRadius={125}
-              barSize={22}
-              data={stackedData}
-              startAngle={90}
-              endAngle={-270}
             >
-              <PolarAngleAxis
-                type="number"
-                domain={[0, 100]}
-                tick={false}
-              />
-
-              <Tooltip
-                cursor={false}
-                contentStyle={{
-                  borderRadius: "12px",
-                  border: "1px solid hsl(var(--border))",
-                  background: "hsl(var(--background))",
-                }}
-              />
-
-              {/* Background ring */}
-              <RadialBar
-                dataKey="total"
-                fill="hsl(var(--muted))"
-                cornerRadius={20}
-                background
-              />
-
-              {/* Stacked segments */}
-              <RadialBar
+              {/* Colored Segments */}
+              <Pie
+                data={chartData}
                 dataKey="value"
-                cornerRadius={20}
-                stackId="charge"
-              />
-            </RadialBarChart>
+                cx={140}
+                cy={140}
+                innerRadius={85}
+                outerRadius={125}
+                startAngle={90}
+                endAngle={-270}
+                stroke="none"
+                onMouseEnter={(_, index) => setActiveIndex(index)}
+                onMouseLeave={() => setActiveIndex(null)}
+                isAnimationActive={false}
+              >
+                {chartData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry.fill}
+                    className="transition-opacity duration-300 ease-in-out"
+                    style={{
+                      cursor: entry.name === "Remaining" ? "default" : "pointer",
+                      pointerEvents: entry.name === "Remaining" ? "none" : "auto",
+                      opacity: activeIndex !== null && activeIndex !== index ? 0.3 : 1,
+                    }}
+                  />
+                ))}
+              </Pie>
+            </PieChart>
 
-            {/* Center Icon + Percentage */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
+            {/* Center Display */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ repeat: Infinity, duration: 2 }}
+                animate={activeIndex !== null ? { scale: 1.1 } : { scale: [1, 1.15, 1] }}
+                transition={activeIndex !== null ? { duration: 0.3 } : { repeat: Infinity, duration: 2 }}
               >
                 <BatteryCharging className="h-12 w-12 text-primary" />
               </motion.div>
 
               <p className="text-4xl font-extrabold mt-2">
-                {totalCharge}%
+                {activeIndex !== null && chartData[activeIndex]?.name !== "Remaining"
+                  ? chartData[activeIndex].value
+                  : totalCharge}%
               </p>
               <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                Total Charge
+                {activeIndex !== null && chartData[activeIndex]?.name !== "Remaining"
+                  ? chartData[activeIndex].name
+                  : "Total Charge"}
               </p>
             </div>
           </div>
 
-          {/* Breakdown Legend */}
+          {/* Legend */}
           <div className="w-full grid gap-3">
-            {sources.map((src) => (
+            {sources.map((src, index) => (
               <div
                 key={src.name}
-                className="flex items-center justify-between rounded-xl border px-4 py-2 bg-muted/20"
+                className="flex items-center justify-between rounded-xl border px-4 py-2 bg-muted/20 cursor-pointer"
+                onMouseEnter={() => setActiveIndex(index)}
+                onMouseLeave={() => setActiveIndex(null)}
+                style={{
+                  opacity: activeIndex !== null && activeIndex !== index ? 0.3 : 1,
+                  transition: "opacity 0.3s ease-in-out",
+                }}
               >
                 <div className="flex items-center gap-2">
                   <span

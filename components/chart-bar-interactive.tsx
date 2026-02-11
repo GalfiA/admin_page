@@ -170,7 +170,7 @@ export function ChartBarInteractive() {
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 pt-4 pb-3 sm:!py-0">
           <CardTitle>Daily Energy Usage</CardTitle>
           <CardDescription>
-            Showing how much energy was used each day, and how much of it was produced by the different sources. Click on the buttons below to switch between different energy sources.
+            Showing how much energy was used each day, and how much of it was produced by the different sources.
           </CardDescription>
         </div>
         <div className="flex">
