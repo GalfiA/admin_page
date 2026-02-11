@@ -10,6 +10,7 @@ import { ChartRadar } from "@/components/chart-radar";
 import ThermometerGroup from "@/components/ThermometerGroup";
 import { ChartLineMultiple } from "@/components/chart-line-multiple";
 import SwitchSettingsCard from "@/components/switches";
+import BatteryChargeRadial from "@/components/battery-charged";
 
 export default function Page() {
   return (
@@ -40,6 +41,9 @@ export default function Page() {
                   <div className="flex-2 gap-4 space-y-4">
                     <ChartRadar />
                     <ThermometerGroup />
+                  </div>
+                  <div className="flex-1 gap-4 space-y-4">
+                    <BatteryChargeRadial />
                   </div>
                 </div>
               </div>
