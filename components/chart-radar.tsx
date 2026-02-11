@@ -20,11 +20,12 @@ import {
 export const description = "Radar chart"
 
 const chartData = [
-  { category: "CO2 emission reduction", value: 60 },
+  { category: "Preventive maintenance", value: 60 },
   { category: "Energy Efficiency", value: 75 },
+  { category: "CO2 emission reduction", value: 60 },
   { category: "Water useage reduction", value: 70 },
   { category: "System stability", value: 90 },
-  { category: "Preventive maintenance", value: 60 },
+  
 ]
 
 const chartConfig = {

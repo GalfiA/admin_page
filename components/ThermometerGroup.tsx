@@ -81,7 +81,7 @@ const Thermometer: React.FC<ThermometerProps> = ({
               height: `${percentage}%`,
               backgroundColor: currentColor,
               // This transition creates the delayed animation effect
-              transition: 'height 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease',
+              transition: 'height 10s cubic-bezier(0.4, 0, 0.2, 1), background-color 10s ease',
             }} />
           </div>
 
@@ -98,7 +98,7 @@ const Thermometer: React.FC<ThermometerProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 2,
-            transition: 'background-color 0.5s ease',
+            transition: 'background-color 10s ease',
             boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
           }}>
             <span style={{ 
