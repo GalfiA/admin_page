@@ -150,7 +150,7 @@ export function ConsumptionSection({ className }: { className?: string }) {
 
       {/* Export Button */}
       <Button className="mt-2 w-full" variant="outline">
-        Export Data to CSV
+        Adat exportálása CSV-be
       </Button>
     </div>
   )
