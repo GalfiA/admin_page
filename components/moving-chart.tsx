@@ -112,7 +112,7 @@ export function TramPriceTicker({
                 </div>
 
                 {/* Simple Sparkline Chart */}
-                <div className="h-[120px] w-full mt-2 overflow-hidden relative">
+                <div className="h-[180px] w-full mt-2 overflow-hidden relative">
                     <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" className="overflow-visible">
                         <defs>
                             <linearGradient id="gradientDetails" x1="0" x2="0" y1="0" y2="1">
