@@ -40,6 +40,7 @@ export default function IndustrialControlPanel() {
         <CardContent className="grid gap-6">
           {controls.map((control) => {
             const enabled = states[control.id];
+            const isLocked = states.emergency && control.id !== "emergency";
 
             return (
               <motion.div
@@ -48,6 +49,7 @@ export default function IndustrialControlPanel() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.15 }}
+                style={{ opacity: isLocked ? 0.5 : 1 }}
               >
                 {/* Left side info */}
                 <div className="space-y-1">
@@ -81,9 +83,19 @@ export default function IndustrialControlPanel() {
                   <Switch
                     id={control.id}
                     checked={enabled}
-                    onCheckedChange={(val) =>
-                      setStates((prev) => ({ ...prev, [control.id]: val }))
-                    }
+                    disabled={isLocked}
+                    onCheckedChange={(val) => {
+                      if (control.id === "emergency" && val) {
+                        setStates({
+                          turbine: false,
+                          generator: false,
+                          cooling: false,
+                          emergency: true,
+                        });
+                      } else {
+                        setStates((prev) => ({ ...prev, [control.id]: val }));
+                      }
+                    }}
                     className={`h-12 w-24 rounded-full transition-all 
                       data-[state=checked]:bg-green-500 
                       data-[state=unchecked]:bg-gray-500`}

@@ -37,17 +37,17 @@ const data = {
   user: {
     name: "SMADS",
     email: "info@smads.hu",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "/images/lambda.png",
   },
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/",
       icon: IconDashboard,
     },
     {
-      title: "Lifecycle",
-      url: "#",
+      title: "Rooms",
+      url: "/room_details",
       icon: IconListDetails,
     },
     {
